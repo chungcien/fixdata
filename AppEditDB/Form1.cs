@@ -55,6 +55,7 @@ namespace AppEditDB
         }
 
         DataProvider dataProvider = new DataProvider();
+
         private void button1_Click(object sender, EventArgs e)
         {
             string user_nghi_sau_31_3 = string.Join("', '", user_file);
@@ -77,7 +78,7 @@ namespace AppEditDB
             int count = 0;
             for (int i = 0; i< data.Rows.Count; i++)
             {
-                dataProvider.ExecuteNonQuery("update appusers set status = 0 where Username in ('" + user_nghi_sau_31_3 + "'); ");
+                //dataProvider.ExecuteNonQuery("update appusers set status = 0 where Username in ('" + user_nghi_sau_31_3 + "'); ");
                 int tem = dataProvider.ExecuteNonQuery("update [UserGroup] set [StartOff] = '" + new DateTime(2019, 4, 1) + "', [EndOff] = '" + data.Rows[i]["Ngày kết thúc hợp đồng"] + "' where [IdUser] in (select ID from AppUsers where Username = '"+ data.Rows[i]["Username"] + "')");
 
                 if(tem > 0)

@@ -46,17 +46,19 @@ namespace AppEditDB
             data.Columns.Add("Ngày kết thúc hợp đồng");
             data.Columns.Add("DU in DB");
 
+            //get DU from DB
             DataTable User_DU = dataProvider.getDatatable("  select UserName, Department.Name from AppUsers, Department, Position where AppUsers.PositionID = Position.ID and Position.DepartmentID = Department.ID");
+
             int _count = 0;
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-
+                //parse Username
                 data.Rows[i]["Username"] = data.Rows[i]["Email"].ToString().Replace("@cmc.com.vn", "");
 
-                user_file.Add(data.Rows[i]["Username"].ToString());
-
                 string temp = data.Rows[i]["Username"].ToString();
+
+                user_file.Add(temp);
 
                 for (int j = 0; j < User_DU.Rows.Count; j++)
                 {
@@ -78,7 +80,6 @@ namespace AppEditDB
 
                 try
                 {
-                    
                     User_Active.Add(temp, temp);
                 }
                 catch(Exception op)
@@ -127,7 +128,7 @@ namespace AppEditDB
 
             DataTable dt = dataProvider.getDatatable("select * from AppUsers where Status = 1 and Username not in ( '" + user_Active + "') ");
 
-            listBox1.Items.Add("Có " + dt.Rows.Count + " user đang active giả");
+            listBox1.Items.Add("Có " + dt.Rows.Count + " user đã nghỉ nhưng chưa inactive");
 
             int tem = dataProvider.ExecuteNonQuery("update [AppUsers] set [Status] = 0 where Username not in ( '" + user_Active + "')");
 
