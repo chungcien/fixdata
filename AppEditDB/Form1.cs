@@ -92,9 +92,7 @@ namespace AppEditDB
 
         private void button3_Click(object sender, EventArgs e)
         {
-            int tem = dataProvider.ExecuteNonQuery("update [UserGroup] set [StartOff] = '" + new DateTime(2019, 4, 1) + "', [EndOff] = NULL where [IdUser] in (select ID from AppUsers where Status = 1)");
-
-            listBox1.Items.Add("Có " + tem + " user đang làm việc.");
+            
         }
     }
 }
