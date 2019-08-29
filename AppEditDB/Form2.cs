@@ -96,7 +96,11 @@ namespace AppEditDB
                 {
                     List<string> lis_date_end = date_end.Split('/').ToList();
 
-                    data.Rows[i]["Ngày kết thúc hợp đồng"] = Convert.ToDateTime(lis_date_end[1] + "/" + lis_date_end[0] + "/" + lis_date_end[2]);
+                    data.Rows[i]["Ngày kết thúc hợp đồng"] = "'" + Convert.ToDateTime(lis_date_end[1] + "/" + lis_date_end[0] + "/" + lis_date_end[2])+"'";
+                }
+                else
+                {
+                    data.Rows[i]["Ngày kết thúc hợp đồng"] = "NULL";
                 }
 
                 if (!string.IsNullOrEmpty(date_start))
@@ -145,7 +149,8 @@ namespace AppEditDB
 
             for(int i = 0; i< data.Rows.Count; i++)
             {
-                int tem = dataProvider.ExecuteNonQuery("update [UserGroup] set [StartOff] = '" + data.Rows[i]["Ngày bắt đầu hợp đồng"].ToString() + "', [EndOff] = '" + data.Rows[i]["Ngày kết thúc hợp đồng"]+"' where [IdUser] in (select ID from AppUsers where Status = 1)");
+
+                int tem = dataProvider.ExecuteNonQuery("update [UserGroup] set [StartOff] = '" + data.Rows[i]["Ngày bắt đầu hợp đồng"].ToString() + "', [EndOff] = " + data.Rows[i]["Ngày kết thúc hợp đồng"].ToString()+" where [IdUser] = (select ID from AppUsers where Username = '"+ data.Rows[i]["UserName"].ToString() + "')");
                 count = count + tem;
 
             }
